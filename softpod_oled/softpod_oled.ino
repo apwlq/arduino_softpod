@@ -45,10 +45,10 @@ void loop() {
     total += analogRead(sensorPin);
   }
   int average = total / numReading / 4;
-  average += 127;
-  Serial.print(average);
+  // average -= 127;
+  Serial.println(average);
   // Serial.print(" ");
-  if (average == 127) {
+  if (average == 0) {
     touch = 0;
     strcpy(scrollStr, "ZERO");
     // Serial.println("0");
@@ -65,13 +65,13 @@ void loop() {
   }
 
   if (dummy > 3) {
-    Serial.println("+");
+    // Serial.println("+");
     strcpy(scrollStr, "UP");
     val += 1;
     dummy = 0;
   } 
   if (dummy < -3) {
-    Serial.println("-");
+    // Serial.println("-");
     strcpy(scrollStr, "DOWN");
     val -= 1;
     dummy = 0;
@@ -87,7 +87,7 @@ void loop() {
   } else if (pastTouch == 0) {
     if (touch == 1) {
       // Serial.println("Touch Start");
-      strcpy(clickStr, "TRUE");
+      sprintf(clickStr, "%d", average/64);
     }
   }
   u8g2.drawStr(41, 42, clickStr);
